@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Flip App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #2e8b57; /* Dark Green background */
+      color: white; /* White text for contrast */
+      text-align: center;
+      margin-top: 50px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      font-size: 48px;  /* Increased font size for the title */
+      margin-bottom: 20px;
+    }
+    #result {
+      font-size: 32px;  /* Increased font size for result */
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    button {
+      font-size: 24px;  /* Increased font size for the button */
+      padding: 25px 50px;
+      margin: 30px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background-color: #e63946; /* Red color for the button */
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #d32f2f; /* Darker red on hover */
+    }
+    #coin-image {
+      width: 300px; /* Larger image size */
+      height: 300px;
+      margin-top: 30px;
+      opacity: 0;  /* Make image invisible initially */
+      transition: opacity 1s ease-in-out; /* Smooth transition for fading in/out */
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Coin Flip App</h1>
+  <div id="result">Result: Press 'Flip Coin' to start.</div>
+  
+  <!-- Coin image will be displayed here -->
+  <img id="coin-image" src="" alt="">
+
+  <!-- Flip Coin Button -->
+  <button id="flipButton">Flip Coin</button>
+
+  <script>
+    // Function to flip the coin
+    let flippedOnce = false;  // Flag to track if the coin has been flipped
+
+    // Wait for the DOM to load completely before defining event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById("flipButton").addEventListener('click', flipCoin);
+    });
+
+    function flipCoin() {
+      // Reset opacity to 0 to trigger fade-in
+      const coinImage = document.getElementById("coin-image");
+      coinImage.style.opacity = 0;  // Hide the image first
+
+      // After the opacity is set to 0, wait for the transition to complete, then set new image and fade in again
+      setTimeout(() => {
+        const result = Math.random() < 0.5 ? "Heads" : "Tails"; // Randomly choose 'Heads' or 'Tails'
+        document.getElementById("result").textContent = "Result: " + result;
+
+        // Update the coin image based on the result
+        if (result === "Heads") {
+          coinImage.src = "images/heads.png";  // Replace with the actual URL for heads image
+        } else {
+          coinImage.src = "images/tails.png";  // Replace with the actual URL for tails image
+        }
+
+        // Fade in the coin image by changing opacity
+        coinImage.style.opacity = 1;  // Make the image visible
+
+        // Change button text to "Try Again" after the first flip
+        if (!flippedOnce) {
+          document.getElementById("flipButton").textContent = "Try Again";
+          flippedOnce = true;
+        }
+      }, 1000); // Wait 1 second before updating the image and fading in
+    }
+  </script>
+
+</body>
+</html>
